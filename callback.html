@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Connexion · NAVI Stats</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet"><style>
+:root{--bg:#0E1330;--ink:#E6E9F5;--muted:#9AA3C7;--glow:#6FE3F0;--line:#262E5C;--err:#FF7A8A}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#1B2A6B 0,var(--bg) 55%);color:var(--ink);font:17px/1.7 "Sora",system-ui,sans-serif;min-height:100vh}
+main{max-width:68ch;margin:0 auto;padding:4rem 1.5rem 5rem}
+.orb{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--glow) 35%,#2B4BD6 80%);box-shadow:0 0 40px var(--glow);margin-bottom:2rem}
+h1{font-weight:600;font-size:2rem;line-height:1.2;margin:0 0 1rem}p{color:var(--muted)}
+.code{display:block;width:100%;background:#0A0F28;border:1px solid var(--line);border-radius:10px;padding:1rem;color:var(--glow);font:15px/1.5 ui-monospace,Consolas,monospace;word-break:break-all;margin:1rem 0}
+button{font:inherit;font-weight:600;background:var(--glow);color:#0E1330;border:0;border-radius:999px;padding:.6rem 1.4rem;cursor:pointer}
+button:focus-visible{outline:2px solid #fff;outline-offset:3px}.err{color:var(--err)}
+</style></head><body><main>
+<div class="orb" aria-hidden="true"></div>
+<div id="out"><h1>Connexion à TikTok</h1><p>Aucun code reçu. Cette page s'utilise après avoir autorisé NAVI Stats sur TikTok.</p></div>
+</main><script>
+const q=new URLSearchParams(location.search),o=document.getElementById('out');
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+if(q.get('error')){o.innerHTML='<h1>Connexion refusée</h1><p class="err">'+esc(q.get('error_description')||q.get('error'))+'</p><p>Relance la connexion depuis le début.</p>';}
+else if(q.get('code')){const c=q.get('code');
+o.innerHTML='<h1>Code reçu</h1><p>Copie ce code et utilise-le tout de suite : il expire en quelques minutes et ne sert qu’une fois.</p><code class="code" id="c">'+esc(c)+'</code><button id="b">Copier le code</button>'+(q.get('state')?'<p>State : '+esc(q.get('state'))+'</p>':'');
+document.getElementById('b').onclick=async()=>{try{await navigator.clipboard.writeText(c);document.getElementById('b').textContent='Code copié';}catch(e){document.getElementById('b').textContent='Sélectionne le code à la main';}};}
+</script></body></html>
